@@ -100,7 +100,7 @@ lspconfig.clangd.setup {}
 lspconfig.jedi_language_server.setup {}
 
 --Set tab width to 2 spaces
-vim.o.tabstop = 2
+vim.o.tabstop = 4
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
@@ -249,10 +249,10 @@ cmp.setup({
     formatting = {
         format = require('lspkind').cmp_format({
             mode = 'enterprise_mode',
-            maxwidth = 50,
+            maxwidth = 100,
             ellipsis_char = '...',
             symbol_map = {
-                Codeium = "" -- Assuming '' is the symbol you want
+                Codeium = "" 
             }
         })
     }
@@ -272,6 +272,15 @@ end
 
 require("autoclose").setup()
 
-vim.g.SupertabDefaultCompletionType = '<Tab>'
+vim.g.SuperTabDefaultCompletionType = "context"
+vim.g.supertab_key = "<Tab>"
+vim.g.supertab_context = 1
 
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+    pattern = { "*" },
+    callback = function()
+        vim.api.nvim_exec('silent! normal! g`"zv', false)
+    end,
+})
 
+vim.o.scrolloff = 999 
